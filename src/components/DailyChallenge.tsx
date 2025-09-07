@@ -24,11 +24,11 @@ interface DailyChallengeProps {
 }
 
 const DailyChallenge = ({
-  title = "Morning Meditation",
-  description = "Start your day with a 10-minute meditation session to improve focus and reduce stress.",
+  title = "Meditation",
+  description = "30 Min.",
   difficulty = "easy",
   status = "new",
-  timeEstimate = "10 mins",
+  timeEstimate = "30 mins",
   groupChallenge = false,
   onStart = () => console.log("Challenge started"),
   onView = () => console.log("View challenge details"),
@@ -58,63 +58,66 @@ const DailyChallenge = ({
       transition={{ duration: 0.3 }}
       className="w-full"
     >
-      <Card className="overflow-hidden">
-        <CardHeader className="pb-2">
-          <div className="flex justify-between items-start">
-            <CardTitle className="text-xl font-bold">{title}</CardTitle>
-            <Badge variant="outline" className={statusColors[status]}>
-              {statusText[status]}
-            </Badge>
-          </div>
-          <div className="flex gap-2 mt-1">
-            <Badge variant="outline" className={difficultyColors[difficulty]}>
-              <Star className="h-3 w-3 mr-1" />
-              {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
-            </Badge>
-            <Badge variant="outline">
-              <Clock className="h-3 w-3 mr-1" />
-              {timeEstimate}
-            </Badge>
-            {groupChallenge && (
-              <Badge
-                variant="outline"
-                className="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
-              >
-                <Users className="h-3 w-3 mr-1" />
-                Group
-              </Badge>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent>
-          <CardDescription className="text-sm text-muted-foreground">
-            {description}
-          </CardDescription>
-        </CardContent>
-        <CardFooter className="flex justify-between pt-2">
-          {status === "completed" ? (
-            <div className="flex items-center text-emerald-600 dark:text-emerald-400">
-              <Trophy className="h-4 w-4 mr-1" />
-              <span className="text-sm font-medium">Challenge completed!</span>
+      <div className="gradient-card rounded-2xl p-6 text-white relative overflow-hidden">
+        <div className="relative z-10">
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <p className="text-white/80 text-sm mb-1">Daily Goals</p>
+              <h3 className="text-xl font-bold">{title}</h3>
+              <p className="text-white/90">{description}</p>
             </div>
-          ) : (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onView}
-              className="text-sm"
-            >
-              View Details
-            </Button>
-          )}
+            <div className="relative w-16 h-16">
+              <svg className="w-16 h-16 progress-ring" viewBox="0 0 36 36">
+                <path
+                  className="text-white/20"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="transparent"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path
+                  className="text-white"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeDasharray="72, 100"
+                  strokeLinecap="round"
+                  fill="transparent"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-lg font-bold">72%</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-black/20 rounded-xl p-4 mb-4">
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="text-white/80 text-sm">Total Calories</p>
+                <p className="text-xl font-bold">546 kcal</p>
+              </div>
+              <div className="text-right">
+                <p className="text-white/80 text-sm">Total Distance</p>
+                <p className="text-xl font-bold">3.5 km</p>
+              </div>
+            </div>
+          </div>
+
           {status !== "completed" && (
-            <Button onClick={onStart} size="sm" className="gap-1">
-              {status === "in-progress" ? "Continue" : "Start Challenge"}
-              <ArrowRight className="h-4 w-4" />
+            <Button
+              onClick={onStart}
+              className="w-full bg-white/20 hover:bg-white/30 text-white border-white/30"
+              variant="outline"
+            >
+              {status === "in-progress"
+                ? "Continue Challenge"
+                : "Start Challenge"}
+              <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           )}
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
     </motion.div>
   );
 };

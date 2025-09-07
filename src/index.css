@@ -4,13 +4,42 @@
 
 @layer base {
   :root {
+    /* Dark mode as default */
+    --background: 15 23% 8%;
+    --foreground: 210 40% 98%;
+    --card: 20 25% 12%;
+    --card-foreground: 210 40% 98%;
+    --popover: 20 25% 12%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 320 100% 60%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 240 25% 20%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 240 25% 20%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 240 25% 20%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 240 25% 20%;
+    --input: 240 25% 20%;
+    --ring: 320 100% 60%;
+    --radius: 1rem;
+
+    /* Custom gradient colors from the image */
+    --gradient-pink: 320 100% 60%;
+    --gradient-purple: 270 100% 70%;
+    --gradient-blue: 240 100% 80%;
+  }
+
+  .light {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 262.1 83.3% 57.8%;
+    --primary: 320 100% 60%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -22,30 +51,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 262.1 83.3% 57.8%;
-    --radius: 0.75rem;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 262.1 83.3% 57.8%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 262.1 83.3% 57.8%;
+    --ring: 320 100% 60%;
   }
 }
 
@@ -73,5 +79,21 @@
 
   .nav-item:not(.active) {
     @apply text-muted-foreground hover:text-foreground hover:bg-accent;
+  }
+
+  .gradient-card {
+    @apply bg-gradient-to-br from-pink-500 via-purple-500 to-blue-500 text-white;
+  }
+
+  .gradient-button {
+    @apply bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white border-0;
+  }
+
+  .dark-card {
+    @apply bg-gray-900/50 backdrop-blur-sm border-gray-800;
+  }
+
+  .progress-ring {
+    transform: rotate(-90deg);
   }
 }

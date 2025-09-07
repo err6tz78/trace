@@ -108,7 +108,7 @@ const GroupList = ({
   },
 }: GroupListProps) => {
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto dark-card">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-center">
           <CardTitle className="text-lg font-bold">My Groups</CardTitle>
@@ -116,7 +116,11 @@ const GroupList = ({
             <Button variant="outline" size="sm" onClick={onJoinGroup}>
               Join
             </Button>
-            <Button size="sm" onClick={onCreateGroup}>
+            <Button
+              size="sm"
+              onClick={onCreateGroup}
+              className="gradient-button"
+            >
               <Plus className="h-4 w-4 mr-1" /> Create
             </Button>
           </div>
@@ -128,7 +132,7 @@ const GroupList = ({
             {groups.map((group) => (
               <div
                 key={group.id}
-                className="p-3 rounded-lg border hover:bg-accent/50 cursor-pointer transition-colors"
+                className="p-3 rounded-lg border border-border hover:bg-accent/50 cursor-pointer transition-colors bg-card/50"
                 onClick={() => onGroupSelect(group.id)}
               >
                 <div className="flex justify-between items-center mb-2">
