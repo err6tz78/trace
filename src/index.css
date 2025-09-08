@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    /* Dark mode as default */
-    --background: 15 23% 8%;
+    /* Dark mode as default - matching the reference image */
+    --background: 220 15% 8%;
     --foreground: 210 40% 98%;
-    --card: 20 25% 12%;
+    --card: 220 15% 12%;
     --card-foreground: 210 40% 98%;
-    --popover: 20 25% 12%;
+    --popover: 220 15% 12%;
     --popover-foreground: 210 40% 98%;
     --primary: 320 100% 60%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 240 25% 20%;
+    --secondary: 240 15% 18%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 240 25% 20%;
+    --muted: 240 15% 18%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 240 25% 20%;
+    --accent: 240 15% 18%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 240 25% 20%;
-    --input: 240 25% 20%;
+    --border: 240 15% 18%;
+    --input: 240 15% 18%;
     --ring: 320 100% 60%;
     --radius: 1rem;
 
@@ -33,7 +33,7 @@
   }
 
   .light {
-    --background: 0 0% 100%;
+    --background: 0 0% 96%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -70,15 +70,15 @@
   }
 
   .nav-item {
-    @apply flex flex-col items-center justify-center p-2 rounded-lg transition-colors;
+    @apply flex flex-col items-center justify-center p-3 rounded-xl transition-all duration-200;
   }
 
   .nav-item.active {
-    @apply text-primary bg-primary/10;
+    @apply text-primary bg-primary/15 scale-105;
   }
 
   .nav-item:not(.active) {
-    @apply text-muted-foreground hover:text-foreground hover:bg-accent;
+    @apply text-muted-foreground hover:text-foreground hover:bg-accent/50 hover:scale-105;
   }
 
   .gradient-card {

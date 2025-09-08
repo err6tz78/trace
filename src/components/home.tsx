@@ -72,7 +72,7 @@ const Home = () => {
   const renderHeader = () => {
     if (activeTab === "home") {
       return (
-        <header className="sticky top-0 z-10 bg-card/80 backdrop-blur-sm border-b border-border px-4 py-3 flex justify-between items-center">
+        <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-md border-b border-border/50 px-6 py-4 flex justify-between items-center">
           <div>
             <p className="text-sm text-muted-foreground">Hello,</p>
             <h1 className="text-xl font-bold text-foreground">Sherman</h1>
@@ -82,17 +82,17 @@ const Home = () => {
               variant="ghost"
               size="icon"
               onClick={handleNotifications}
-              className="rounded-full bg-muted"
+              className="rounded-full bg-muted/50 hover:bg-muted border border-border/30"
             >
-              <Bell size={20} />
+              <Bell size={18} />
             </Button>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => console.log("Search")}
-              className="rounded-full bg-foreground text-background"
+              className="rounded-full bg-foreground text-background hover:bg-foreground/90"
             >
-              <Search size={20} />
+              <Search size={18} />
             </Button>
           </div>
         </header>
@@ -100,7 +100,7 @@ const Home = () => {
     }
 
     return (
-      <header className="sticky top-0 z-10 bg-card/80 backdrop-blur-sm border-b border-border px-4 py-3 flex justify-between items-center">
+      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-md border-b border-border/50 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center space-x-3">
           <Button
             variant="ghost"
@@ -249,14 +249,14 @@ const Home = () => {
       />
 
       {/* Bottom Navigation */}
-      <nav className="sticky bottom-0 bg-card border-t px-4 py-2">
-        <div className="flex justify-around items-center">
+      <nav className="sticky bottom-0 bg-background/95 backdrop-blur-md border-t border-border/50 px-6 py-3 safe-area-pb">
+        <div className="flex justify-around items-center max-w-md mx-auto">
           <button
             className={`nav-item ${activeTab === "home" ? "active" : ""}`}
             onClick={() => setActiveTab("home")}
           >
             <HomeIcon size={20} />
-            <span className="text-xs mt-1">Home</span>
+            <span className="text-xs mt-1 font-medium">Home</span>
           </button>
           <button
             className={`nav-item ${activeTab === "challenges" ? "active" : ""}`}
