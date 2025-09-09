@@ -62,11 +62,26 @@
   body {
     @apply bg-background text-foreground;
   }
+  html, body {
+    @apply overflow-x-hidden;
+  }
 }
 
 @layer components {
   .app-container {
-    @apply min-h-screen bg-background;
+    @apply min-h-screen bg-background flex flex-col;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .main-content {
+    @apply flex-1 overflow-y-auto;
+    padding-bottom: 80px; /* Space for fixed bottom nav */
+  }
+
+  .bottom-nav {
+    @apply fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-md border-t border-border/50;
+    z-index: 1000;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   .nav-item {
@@ -95,5 +110,14 @@
 
   .progress-ring {
     transform: rotate(-90deg);
+  }
+
+  /* Ensure dialogs and modals appear above nav */
+  .dialog-overlay {
+    z-index: 1100 !important;
+  }
+  
+  .dialog-content {
+    z-index: 1101 !important;
   }
 }

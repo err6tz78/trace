@@ -9,21 +9,31 @@ import {
   Sun,
   ArrowLeft,
   Search,
+  Settings,
+  BellRing,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
 import DailyChallenge from "./DailyChallenge";
 import GroupList from "./GroupList";
 import SocialFeed from "./SocialFeed";
 import CreateGroupDialog from "./CreateGroupDialog";
+import { notificationService } from "@/lib/notifications";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("home");
-  const [isDarkMode, setIsDarkMode] = useState(true); // Dark mode as default
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const { toast } = useToast();
 
   // Set dark mode as default on component mount
   React.useEffect(() => {
     document.documentElement.classList.add("dark");
+    // Check if notifications are already enabled
+    setNotificationsEnabled(notificationService.isNotificationEnabled());
   }, []);
 
   const toggleDarkMode = () => {
@@ -34,6 +44,64 @@ const Home = () => {
     } else {
       document.documentElement.classList.add("dark");
       document.documentElement.classList.remove("light");
+    }
+  };
+
+  const handleNotificationToggle = async (enabled: boolean) => {
+    try {
+      if (enabled) {
+        const granted = await notificationService.requestPermission();
+        if (granted) {
+          setNotificationsEnabled(true);
+          toast({
+            title: "Notifications Enabled",
+            description: "You'll now receive push notifications for challenges and updates.",
+          });
+        } else {
+          toast({
+            title: "Permission Denied",
+            description: "Please enable notifications in your browser settings.",
+            variant: "destructive",
+          });
+        }
+      } else {
+        setNotificationsEnabled(false);
+        toast({
+          title: "Notifications Disabled",
+          description: "You won't receive push notifications anymore.",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to toggle notifications. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleTestNotification = async () => {
+    try {
+      if (!notificationsEnabled) {
+        toast({
+          title: "Enable Notifications First",
+          description: "Please enable notifications to send a test notification.",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      await notificationService.sendTestNotification();
+      toast({
+        title: "Test Notification Sent",
+        description: "Check your notifications!",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send test notification.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -66,13 +134,12 @@ const Home = () => {
     description: string;
   }) => {
     console.log("Creating group:", groupData);
-    // Here you would typically call an API to create the group
   };
 
   const renderHeader = () => {
     if (activeTab === "home") {
       return (
-        <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-md border-b border-border/50 px-6 py-4 flex justify-between items-center">
+        <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border/50 px-6 py-4 flex justify-between items-center">
           <div>
             <p className="text-sm text-muted-foreground">Hello,</p>
             <h1 className="text-xl font-bold text-foreground">Sherman</h1>
@@ -100,7 +167,7 @@ const Home = () => {
     }
 
     return (
-      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-md border-b border-border/50 px-6 py-4 flex justify-between items-center">
+      <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border/50 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center space-x-3">
           <Button
             variant="ghost"
@@ -135,7 +202,7 @@ const Home = () => {
       {renderHeader()}
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto px-4 py-6 space-y-6">
+      <main className="main-content px-4 py-6 space-y-6">
         {activeTab === "home" && (
           <>
             {/* Daily Goals Section */}
@@ -237,6 +304,49 @@ const Home = () => {
                   <div className="text-sm text-muted-foreground">Groups</div>
                 </div>
               </div>
+
+              {/* Notification Settings */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Settings size={20} />
+                    Notification Settings
+                  </CardTitle>
+                  <CardDescription>
+                    Manage your push notification preferences
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Bell size={16} />
+                      <span>Push Notifications</span>
+                    </div>
+                    <Switch
+                      checked={notificationsEnabled}
+                      onCheckedChange={handleNotificationToggle}
+                    />
+                  </div>
+                  
+                  {notificationsEnabled && (
+                    <Button
+                      onClick={handleTestNotification}
+                      variant="outline"
+                      className="w-full"
+                    >
+                      <BellRing size={16} className="mr-2" />
+                      Send Test Notification
+                    </Button>
+                  )}
+                  
+                  <p className="text-xs text-muted-foreground">
+                    {notificationService.isNotificationSupported() 
+                      ? "Notifications are supported in your browser"
+                      : "Notifications are not supported in your browser"
+                    }
+                  </p>
+                </CardContent>
+              </Card>
             </div>
           </section>
         )}
@@ -248,8 +358,8 @@ const Home = () => {
         onCreateGroup={handleCreateGroup}
       />
 
-      {/* Bottom Navigation */}
-      <nav className="sticky bottom-0 bg-background/95 backdrop-blur-md border-t border-border/50 px-6 py-3 safe-area-pb">
+      {/* Bottom Navigation - Fixed */}
+      <nav className="bottom-nav px-6 py-3">
         <div className="flex justify-around items-center max-w-md mx-auto">
           <button
             className={`nav-item ${activeTab === "home" ? "active" : ""}`}
@@ -263,21 +373,21 @@ const Home = () => {
             onClick={() => setActiveTab("challenges")}
           >
             <Calendar size={20} />
-            <span className="text-xs mt-1">Challenges</span>
+            <span className="text-xs mt-1 font-medium">Challenges</span>
           </button>
           <button
             className={`nav-item ${activeTab === "groups" ? "active" : ""}`}
             onClick={() => setActiveTab("groups")}
           >
             <Users size={20} />
-            <span className="text-xs mt-1">Groups</span>
+            <span className="text-xs mt-1 font-medium">Groups</span>
           </button>
           <button
             className={`nav-item ${activeTab === "profile" ? "active" : ""}`}
             onClick={() => setActiveTab("profile")}
           >
             <User size={20} />
-            <span className="text-xs mt-1">Profile</span>
+            <span className="text-xs mt-1 font-medium">Profile</span>
           </button>
         </div>
       </nav>
