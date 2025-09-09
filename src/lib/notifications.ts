@@ -5,7 +5,7 @@ export class NotificationService {
   private isEnabled: boolean = false;
 
   private constructor() {
-    this.isSupported = 'Notification' in window && 'serviceWorker' in navigator;
+    this.isSupported = "Notification" in window && "serviceWorker" in navigator;
     this.checkPermission();
   }
 
@@ -18,49 +18,52 @@ export class NotificationService {
 
   private checkPermission(): void {
     if (this.isSupported) {
-      this.isEnabled = Notification.permission === 'granted';
+      this.isEnabled = Notification.permission === "granted";
     }
   }
 
   public async requestPermission(): Promise<boolean> {
     if (!this.isSupported) {
-      throw new Error('Notifications are not supported in this browser');
+      throw new Error("Notifications are not supported in this browser");
     }
 
-    if (Notification.permission === 'granted') {
+    if (Notification.permission === "granted") {
       this.isEnabled = true;
       return true;
     }
 
-    if (Notification.permission === 'denied') {
+    if (Notification.permission === "denied") {
       return false;
     }
 
     const permission = await Notification.requestPermission();
-    this.isEnabled = permission === 'granted';
+    this.isEnabled = permission === "granted";
     return this.isEnabled;
   }
 
-  public async sendNotification(title: string, options?: NotificationOptions): Promise<void> {
+  public async sendNotification(
+    title: string,
+    options?: NotificationOptions,
+  ): Promise<void> {
     if (!this.isEnabled) {
-      throw new Error('Notifications are not enabled');
+      throw new Error("Notifications are not enabled");
     }
 
     const defaultOptions: NotificationOptions = {
-      icon: '/icon.svg',
-      badge: '/icon.svg',
+      icon: "/icon.svg",
+      badge: "/icon.svg",
       vibrate: [200, 100, 200],
-      ...options
+      ...options,
     };
 
     new Notification(title, defaultOptions);
   }
 
   public async sendTestNotification(): Promise<void> {
-    await this.sendNotification('Challenge App Test', {
-      body: 'Push notifications are working! 🎉',
-      icon: '/icon.svg',
-      tag: 'test-notification'
+    await this.sendNotification("Trace", {
+      body: "Push notifications are working! 🎉",
+      icon: "/icon.svg",
+      tag: "test-notification",
     });
   }
 
