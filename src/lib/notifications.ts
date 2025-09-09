@@ -60,8 +60,8 @@ export class NotificationService {
   }
 
   public async sendTestNotification(): Promise<void> {
-    await this.sendNotification("Trace", {
-      body: "Push notifications are working! 🎉",
+    await this.sendNotification("New Challange🔥", {
+      body: "12h remaining!",
       icon: "/icon.svg",
       tag: "test-notification",
     });
